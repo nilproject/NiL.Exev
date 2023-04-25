@@ -21,8 +21,8 @@
   </PropertyGroup>
 
   <Target Name="ReleaseNotesReading" BeforeTargets="GenerateNuspec">
-    <ReadLinesFromFile File="../Release.md" >
-      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines"/>
+    <ReadLinesFromFile File="../Release.md">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
     </ReadLinesFromFile>
   </Target>
 
@@ -43,10 +43,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet run --project ./../Utils/tiny-t4 --framework net7.0" />
-  </Target>
 
   <ItemGroup>
     <None Update="ExpressionEvaluator.Operators.tt">

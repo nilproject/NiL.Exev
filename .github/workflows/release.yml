@@ -57,7 +57,7 @@ jobs:
     env:
       Project_Directory: NiL.Exev
       Solution_Name: $Project_Directory/NiL.Exev.csproj
-      Test_Project_Path: Tests/Tests.csproj
+      Test_Project_Path: UnitTests/UnitTests.csproj
       Nuget_Pack_Output_Directory: nuget
 
     steps:
@@ -90,14 +90,9 @@ jobs:
         $certificatePath = Join-Path -Path $env:Project_Directory -ChildPath keys.snk
         [IO.File]::WriteAllBytes("$certificatePath", $snk_byte)
 
-    - name: Run TinyT4
-      run: |
-        cd Tests
-        dotnet run --project ..\Utils\tiny-t4\ --framework net7.0
-
     - name: Test .NET Core 7.0
       run: |
-        cd Tests
+        cd UnitTests
         dotnet test -c Release -property:TargetFramework=net7.0 -property:SignAssembly=false -property:PublicSign=false
 
     - name: Build release message
@@ -125,8 +120,9 @@ jobs:
     - name: Make release tag
       id: tag
       run: |
+        $VERSION=${{ vars.VERSION }}
         echo $VERSION
-        $TAG="${{ vars.VERSION }}.$(git rev-list --count origin/develop)"
+        $TAG="$VERSION.$(git rev-list --count origin/master)"
         echo "tag=$TAG" >> $env:GITHUB_OUTPUT
         echo $GITHUB_OUTPUT
         echo $env:GITHUB_OUTPUT

@@ -6,3 +6,4 @@
 */obj
 */*.snk
 .vs
+/nuget
