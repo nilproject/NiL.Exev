@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Description>System.Linq.Expression evaluator and serializer</Description>
+    <AssemblyTitle>NiL.Exev</AssemblyTitle>
+    <Authors>NiLProject</Authors>
     <TargetFrameworks>netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
@@ -21,8 +24,8 @@
   </PropertyGroup>
 
   <Target Name="ReleaseNotesReading" BeforeTargets="GenerateNuspec">
-    <ReadLinesFromFile File="../Release.md" >
-      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines"/>
+    <ReadLinesFromFile File="../Release.md">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
     </ReadLinesFromFile>
   </Target>
 
@@ -43,10 +46,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet run --project ./../Utils/tiny-t4 --framework net7.0" />
-  </Target>
 
   <ItemGroup>
     <None Update="ExpressionEvaluator.Operators.tt">

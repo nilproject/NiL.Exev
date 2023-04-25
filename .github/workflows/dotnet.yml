@@ -2,9 +2,9 @@ name: .NET
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ master ]
   pull_request:
-    branches: [ develop ]
+    branches: [ master ]
 
 jobs:
   Tests:
@@ -47,17 +47,13 @@ jobs:
     - name: Build
       run: |
         cd ./NiL.Exev
+        dotnet run --project ./../Utils/tiny-t4/tiny-t4.csproj --framework net7.0
         dotnet build --no-restore -c Release -property:SignAssembly=false -property:PublicSign=false
         cd ..
 
-    - name: Run TinyT4
-      run: |
-        cd Tests
-        dotnet run --project ..\Utils\tiny-t4\ --framework net7.0
-
     - name: Test .NET Core 7.0
       run: |
-        cd Tests
+        cd UnitTests
         dotnet test -c Release -property:TargetFramework=net7.0 -property:SignAssembly=false -property:PublicSign=false
 
     - name: Remove the snk
