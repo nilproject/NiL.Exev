@@ -30,7 +30,7 @@ namespace NiL.Exev
             if (expression == null)
                 throw new ArgumentNullException();
 
-            var stack = new Stack<object>();
+            var stack = new Stack<object>(16);
             eval(expression, stack, new List<Parameter>(parameters));
 
             return stack.Pop();
@@ -78,8 +78,13 @@ namespace NiL.Exev
                 {
                     case ExpressionType.Add:
                     case ExpressionType.AddAssign:
-                        stack.Push(add_unchecked(left, right, type));
+                    {
+                        if (type == typeof(string))
+                            stack.Push(string.Concat(left, right));
+                        else
+                            stack.Push(add_unchecked(left, right, type));
                         break;
+                    }
 
                     case ExpressionType.Subtract:
                     case ExpressionType.SubtractAssign:
